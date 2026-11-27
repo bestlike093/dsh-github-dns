@@ -1,0 +1,66 @@
+{
+  "name": "dsh-github-dns",
+  "version": "0.1.0",
+  "description": "给 DeepSeek Harness 的 GitHub 入口 IP 筛选器：多源 DoH 取候选，TLS 探测筛掉坏 IP，按需替换 hosts 里的 GitHub 解析。",
+  "type": "module",
+  "main": "lib/index.js",
+  "author": "bestlike093",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bestlike093/dsh-github-dns.git"
+  },
+  "homepage": "https://github.com/bestlike093/dsh-github-dns#readme",
+  "bugs": {
+    "url": "https://github.com/bestlike093/dsh-github-dns/issues"
+  },
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "scripts",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "github",
+    "dns",
+    "hosts",
+    "doh"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-settings",
+        "@deepseek-ai/dsh-client-ui-theme"
+      ],
+      "platform": "web",
+      "immediately": true
+    },
+    "catalog": {
+      "category": "tools",
+      "summary": {
+        "en": "Screen GitHub entry IPs from multiple DoH sources, verify them with a real TLS handshake, and switch the hosts entry only when the current one stops working.",
+        "zh": "从多个 DoH 源筛 GitHub 入口 IP，用真实 TLS 握手验证，当前 IP 失效时才替换 hosts。"
+      },
+      "capabilities": [
+        "webserver",
+        "storage",
+        "network",
+        "child-process"
+      ]
+    }
+  }
+}
