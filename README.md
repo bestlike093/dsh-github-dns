@@ -23,7 +23,7 @@
 
 ## 安装
 
-1. 把插件目录放到 DSH 的插件目录（本机是 `D:\昔涟工作区\plugins\dsh-github-dns`）
+1. 把插件目录放到 DSH 的插件目录（例如 `<DSH_HOME>/plugins/dsh-github-dns`）
 2. 在 DSH 插件管理里启用 `dsh-github-dns`
 3. 打开设置页的「GitHub IP」，点「安装计划任务」，在 UAC 弹窗里点「是」
 
