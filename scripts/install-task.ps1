@@ -1,3 +1,5 @@
+param([string]$TaskUser = '')
+
 $ErrorActionPreference = 'Stop'
 
 # dsh-github-dns: register the on-demand scheduled task that applies hosts.
@@ -14,7 +16,8 @@ $utf8 = New-Object System.Text.UTF8Encoding($false)
 try {
   if (-not (Test-Path $scriptPath)) { throw 'apply-hosts.ps1 not found' }
   $action = New-ScheduledTaskAction -Execute 'powershell.exe' -Argument ('-NoProfile -WindowStyle Hidden -ExecutionPolicy Bypass -File "' + $scriptPath + '"')
-  $user = "$env:USERDOMAIN\$env:USERNAME"
+  $user = if ($TaskUser) { $TaskUser } else { "$env:USERDOMAIN\$env:USERNAME" }
+  if (-not $user) { throw 'cannot determine the interactive user for the scheduled task' }
   $principal = New-ScheduledTaskPrincipal -UserId $user -LogonType Interactive -RunLevel Highest
   $settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -ExecutionTimeLimit (New-TimeSpan -Minutes 2) -MultipleInstances IgnoreNew
   Register-ScheduledTask -TaskName $taskName -Action $action -Principal $principal -Settings $settings -Force | Out-Null
